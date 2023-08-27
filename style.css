@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20pt;
+    
+}
+body{
+    background: #000066;
+}
+.container{
+    border-radius: 10px;
+    background: #ffffff;
+    width: 90%;
+    max-width: 600px;
+    margin: 100px auto 0;
+    padding: 30px;
+}
+
+.flex-center{
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.homeh1{
+    padding-bottom: 50px;
+}
+
+
+.homebtn{
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #000000;
+    border: solid;
+    text-decoration: none;
+
+}
+
+.homebtn:hover{
+    background-color: #000000;
+    color: #ffffff;
+    transition: .3s;
+}
