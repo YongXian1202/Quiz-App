@@ -143,6 +143,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p><strong>Question ${index + 1}:</strong> ${questionData.question}</p>
             `;
 
+            // Create a unique set of choices for each question
+            const choicesContainer = document.createElement("div");
+
             questionData.choices.forEach((choice, choiceIndex) => {
                 const choiceLabel = document.createElement("label");
                 choiceLabel.className = choiceIndex === questionData.correctAnswer ? "correct" : "wrong";
@@ -151,9 +154,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     <input type="radio" name="q${index}" value="${choiceIndex}">
                     ${optionLabel}. ${choice}
                 `;
-                questionDiv.appendChild(choiceLabel);
+                choicesContainer.appendChild(choiceLabel);
             });
 
+            questionDiv.appendChild(choicesContainer);
             quizContainer.appendChild(questionDiv);
         });
 
