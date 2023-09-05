@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Quiz Game</title>
+    <meta charset="utf-8">  
+    <style>
+        /* Add CSS styles for the dropdown menu here */
+        select {
+            color: black;
+        }
+
+        /* Your CSS styles for the quiz page */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 20pt;
+        }
+
+        body {
+            background: #000066;
+        }
+
+        .container {
+            border-radius: 10px;
+            background: #ffffff;
+            width: 90%;
+            max-width: 600px;
+            margin: 100px auto 0;
+            padding: 30px;
+        }
+
+        .flex-center {
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+        }
+
+        .homeh1 {
+            padding-bottom: 50px;
+        }
+
+        .homebtn {
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border: solid;
+            text-decoration: none;
+        }
+
+        .homebtn:hover {
+            background-color: #000000;
+            color: #ffffff;
+            transition: .3s;
+        }
+
+        h1 {
+            color: #000000; /* Change the quiz title color */
+            text-align: center; /* Center-align the quiz title */
+        }
+
+        #quiz-container {
+            margin-top: 30px; /* Add some spacing between the title and questions */
+            background: #ffffff; /* White background for the quiz container */
+            padding: 20px; /* Add some padding to the quiz container */
+            border-radius: 10px; /* Rounded corners for the quiz container */
+        }
+
+        .question {
+            margin-bottom: 20px; /* Add spacing between questions */
+        }
+
+        /* Style for question options */
+        label {
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            color: #000000; /* Change the color of answer choices */
+            border: 1px solid #000000; /* Black border around the options */
+            background-color: #ffffff; /* White background */
+            padding: 10px; /* Add padding around the options */
+            border-radius: 5px; /* Rounded corners for options */
+            transition: background-color 0.3s, color 0.3s; /* Smooth hover transition */
+            list-style: none; /* Hide bullet points */
+        }
+
+        /* Style for question options on hover */
+        label:hover {
+            background-color: #000000; /* Black background on hover */
+            color: #ffffff; /* White text color on hover */
+        }
+
+        /* Style for correct answer */
+        input[type="radio"]:checked + label.correct {
+            background-color: #6BCB67; /* Light green background for the correct answer */
+        }
+
+        /* Style for wrong answer */
+        input[type="radio"]:checked + label.wrong {
+            background-color: #FF6B6B; /* Light red background for wrong answer */
+        }
+
+        /* Add more styles as needed */
+
+        #quiz-result {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Quiz</h1>
+
+    <!-- Quiz content will be dynamically generated using JavaScript -->
+    <div id="quiz-container">
+        <!-- Quiz questions and choices will be added here dynamically -->
+    </div>
+
+    <div id="quiz-result"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Retrieve the quizData from sessionStorage
+    const quizData = JSON.parse(sessionStorage.getItem("quizData"));
+
+    // Check if quizData exists and is an array
+    if (Array.isArray(quizData) && quizData.length > 0) {
+        const quizContainer = document.getElementById("quiz-container");
+
+        // Create and display the quiz based on quizData
+        quizData.forEach((questionData, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+            questionDiv.innerHTML = `
+                <p><strong>Question ${index + 1}:</strong> ${questionData.question}</p>
+            `;
+
+            questionData.choices.forEach((choice, choiceIndex) => {
+                const choiceLabel = document.createElement("label");
+                choiceLabel.className = choiceIndex === questionData.correctAnswer ? "correct" : "wrong";
+                const optionLabel = String.fromCharCode(65 + choiceIndex); // A, B, C, D
+                choiceLabel.innerHTML = `
+                    <input type="radio" name="q${index}" value="${choiceIndex}">
+                    ${optionLabel}. ${choice}
+                `;
+                questionDiv.appendChild(choiceLabel);
+            });
+
+            quizContainer.appendChild(questionDiv);
+        });
+
+        // Add a submit button
+        const submitButton = document.createElement("button");
+        submitButton.innerHTML = "Submit Quiz";
+        submitButton.className = "homebtn";
+        quizContainer.appendChild(submitButton);
+
+        submitButton.addEventListener("click", function() {
+            const questions = document.querySelectorAll(".question");
+            let score = 0;
+
+            questions.forEach((question, index) => {
+                const selectedOption = question.querySelector(`input[name="q${index}"]:checked`);
+                if (selectedOption) {
+                    const selectedValue = parseInt(selectedOption.value);
+                    if (selectedValue === quizData[index].correctAnswer) {
+                        score++;
+                    }
+                }
+            });
+
+            const quizResult = document.getElementById("quiz-result");
+            quizResult.textContent = `You scored ${score} out of ${quizData.length}`;
+
+            // Optionally, you can save the score to sessionStorage or another location.
+        });
+    } else {
+        // Handle the case where quizData is not available
+        document.body.innerHTML = "<p>Quiz data is not available.</p>";
+    }
+});
+</script>
+
+</body>
+</html>
