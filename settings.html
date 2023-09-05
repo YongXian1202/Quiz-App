@@ -44,7 +44,6 @@
             const quizContainer = document.getElementById("quiz-container");
             const quizForm = document.getElementById("quiz-form");
             const createQuizButton = document.getElementById("create-quiz-button");
-            const correctAnswerButtons = []; // Store buttons for selecting correct answers
             const selectedCorrectAnswers = []; // Store selected correct answers
             
             let numQuestions = 0;
@@ -80,9 +79,6 @@
                     const choicesContainer = document.getElementById(`choices-container${i}`);
                     const addChoiceButton = document.getElementById(`add-choice${i}`);
                     const chooseCorrectButton = document.getElementById(`choose-correct${i}`);
-
-                    // Store the button for choosing the correct answer
-                    correctAnswerButtons.push(chooseCorrectButton);
 
                     addChoiceButton.addEventListener("click", function() {
                         addChoice(choicesContainer);
@@ -142,7 +138,8 @@
 
                 for (let i = 1; i <= numQuestions; i++) {
                     const question = document.querySelector(`input[name="question${i}"]`).value;
-                    const choiceInputs = document.querySelectorAll(`.choice`);
+                    const choicesContainer = document.getElementById(`choices-container${i}`);
+                    const choiceInputs = choicesContainer.querySelectorAll(".choice");
                     const choices = Array.from(choiceInputs).map(choiceInput => choiceInput.value.trim());
 
                     // Get the selected correct answer
