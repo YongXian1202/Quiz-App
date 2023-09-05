@@ -70,6 +70,7 @@
                             <!-- Choices will be added here dynamically -->
                         </div>
                         <button type="button" id="add-choice${i}" class="homebtn">Add Choice</button>
+                        <button type="button" id="delete-choice${i}" class="homebtn">Delete Choice</button>
                         <button type="button" id="choose-correct${i}" class="homebtn">Choose Correct Answer</button>
                         <p class="error" id="error${i}"></p>
                     `;
@@ -78,10 +79,15 @@
 
                     const choicesContainer = document.getElementById(`choices-container${i}`);
                     const addChoiceButton = document.getElementById(`add-choice${i}`);
+                    const deleteChoiceButton = document.getElementById(`delete-choice${i}`);
                     const chooseCorrectButton = document.getElementById(`choose-correct${i}`);
 
                     addChoiceButton.addEventListener("click", function() {
                         addChoice(choicesContainer);
+                    });
+
+                    deleteChoiceButton.addEventListener("click", function() {
+                        deleteChoice(choicesContainer);
                     });
 
                     chooseCorrectButton.addEventListener("click", function() {
@@ -100,6 +106,16 @@
                 // Add spacing
                 const spacingElement = document.createElement("br");
                 choicesContainer.appendChild(spacingElement);
+            }
+
+            function deleteChoice(choicesContainer) {
+                const choiceInputs = choicesContainer.querySelectorAll(".choice");
+                if (choiceInputs.length > 0) {
+                    // Remove the last choice
+                    choicesContainer.removeChild(choiceInputs[choiceInputs.length - 1]);
+                    // Remove the corresponding spacing element
+                    choicesContainer.removeChild(choicesContainer.lastElementChild);
+                }
             }
 
             function chooseCorrectAnswer(questionNumber) {
