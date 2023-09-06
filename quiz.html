@@ -94,16 +94,6 @@
             color: #ffffff; /* White text color on hover */
         }
 
-        /* Style for correct answer */
-        input[type="radio"]:checked + label.correct {
-            background-color: #6BCB67; /* Light green background for the correct answer */
-        }
-
-        /* Style for wrong answer */
-        input[type="radio"]:checked + label.wrong {
-            background-color: #FF6B6B; /* Light red background for wrong answer */
-        }
-
         /* Add more styles as needed */
 
         #quiz-result {
@@ -111,6 +101,21 @@
             font-size: 24px;
             font-weight: bold;
             margin-top: 20px;
+            display: none; /* Hide the result initially */
+        }
+
+        /* Style for correct answer */
+        label.correct {
+            /* Light green background for the correct answer, but hidden initially */
+            background-color: #6BCB67 !important;
+            color: #ffffff !important;
+        }
+
+        /* Style for wrong answer */
+        label.wrong {
+            /* Light red background for wrong answer, but hidden initially */
+            background-color: #FF6B6B !important;
+            color: #ffffff !important;
         }
     </style>
 </head>
@@ -148,10 +153,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             questionData.choices.forEach((choice, choiceIndex) => {
                 const choiceLabel = document.createElement("label");
-                choiceLabel.className = choiceIndex === questionData.correctAnswer ? "correct" : "wrong";
+                // Initially, don't apply "correct" or "wrong" classes
                 const optionLabel = String.fromCharCode(65 + choiceIndex); // A, B, C, D
                 choiceLabel.innerHTML = `
-                    <input type="radio" name="q${index}" value="${choiceIndex}">
+                    <input type="radio" style="display:none;" name="q${index}" value="${choiceIndex}">
                     ${optionLabel}. ${choice}
                 `;
                 choicesContainer.appendChild(choiceLabel);
@@ -175,13 +180,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 const selectedOption = question.querySelector(`input[name="q${index}"]:checked`);
                 if (selectedOption) {
                     const selectedValue = parseInt(selectedOption.value);
-                    if (selectedValue === quizData[index].correctAnswer) {
+                    const correctChoice = quizData[index].correctAnswer;
+                    if (selectedValue === correctChoice) {
                         score++;
+                    }
+                    selectedOption.parentElement.classList.remove("correct", "wrong");
+                    if (selectedValue === correctChoice) {
+                        selectedOption.parentElement.classList.add("correct");
+                    } else {
+                        selectedOption.parentElement.classList.add("wrong");
                     }
                 }
             });
 
             const quizResult = document.getElementById("quiz-result");
+            quizResult.style.display = "block"; // Display the result
             quizResult.textContent = `You scored ${score} out of ${quizData.length}`;
 
             // Optionally, you can save the score to sessionStorage or another location.
