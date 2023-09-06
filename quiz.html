@@ -119,7 +119,7 @@
 
         /* Style for wrong answer */
         label.wrong {
-            /* Light red background for wrong answer, but hidden initially */
+            /* Light red background for wrong answer */
             background-color: #FF6B6B !important;
             color: #ffffff !important;
         }
@@ -209,6 +209,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         selectedOption.parentElement.classList.add("correct");
                     } else {
                         selectedOption.parentElement.classList.add("wrong");
+                    }
+
+                    // Highlight the correct answer for incorrect responses
+                    if (selectedValue !== correctChoice) {
+                        const correctLabel = question.querySelector(`input[value="${correctChoice}"]`).parentElement;
+                        correctLabel.classList.add("correct");
                     }
                 }
 
