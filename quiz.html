@@ -88,13 +88,19 @@
             list-style: none; /* Hide bullet points */
         }
 
-        /* Style for question options on hover */
-        label:hover {
-            background-color: #000000; /* Black background on hover */
-            color: #ffffff; /* White text color on hover */
+        /* Style for selected answer */
+        label.selected {
+            /* Black background for selected answer */
+            background-color: #000000 !important;
+            color: #ffffff !important;
         }
 
-        /* Add more styles as needed */
+        /* Style for disabled choice buttons */
+        label.disabled {
+            background-color: #dddddd !important;
+            color: #777777 !important;
+            cursor: not-allowed;
+        }
 
         #quiz-result {
             text-align: center;
@@ -116,6 +122,11 @@
             /* Light red background for wrong answer, but hidden initially */
             background-color: #FF6B6B !important;
             color: #ffffff !important;
+        }
+
+        /* Remove hover effect on choices after quiz is submitted */
+        .quiz-submitted label {
+            pointer-events: none; /* Disable hover effect */
         }
     </style>
 </head>
@@ -160,6 +171,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${optionLabel}. ${choice}
                 `;
                 choicesContainer.appendChild(choiceLabel);
+
+                // Add click event listener to apply "selected" class when clicked
+                choiceLabel.addEventListener("click", function() {
+                    const selectedLabels = questionDiv.querySelectorAll("label");
+                    selectedLabels.forEach((label) => {
+                        label.classList.remove("selected");
+                    });
+                    choiceLabel.classList.add("selected");
+                });
             });
 
             questionDiv.appendChild(choicesContainer);
@@ -191,13 +211,29 @@ document.addEventListener("DOMContentLoaded", function() {
                         selectedOption.parentElement.classList.add("wrong");
                     }
                 }
+
+                // Disable the choice buttons after submission
+                const choiceLabels = question.querySelectorAll("label");
+                choiceLabels.forEach((label) => {
+                    label.querySelector("input[type='radio']").disabled = true;
+                });
             });
 
             const quizResult = document.getElementById("quiz-result");
             quizResult.style.display = "block"; // Display the result
             quizResult.textContent = `You scored ${score} out of ${quizData.length}`;
+            
+            // Remove the "selected" class to clear the black background for choices
+            const selectedLabels = document.querySelectorAll(".selected");
+            selectedLabels.forEach((label) => {
+                label.classList.remove("selected");
+            });
 
-            // Optionally, you can save the score to sessionStorage or another location.
+            // Disable the submit button to prevent further submissions
+            submitButton.disabled = true;
+
+            // Add the "quiz-submitted" class to disable hover effect
+            quizContainer.classList.add("quiz-submitted");
         });
     } else {
         // Handle the case where quizData is not available
