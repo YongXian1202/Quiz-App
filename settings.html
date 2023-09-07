@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Quiz Game</title>
-    <meta charset="utf-8">  
     <style>
         /* Add CSS styles for the dropdown menu here */
         select {
@@ -79,7 +78,8 @@
                             <button type="button" id="delete-choice${i}" class="homebtn">Delete Choice</button>
                             <button type="button" id="choose-correct${i}" class="homebtn">Choose Correct Answer</button>
                         </div>
-                        <p class="error" id="error${i}"></p>
+                        <p class="error" id="error-question${i}"></p>
+                        <p class="error" id="error-choices${i}"></p>
                     `;
 
                     quizForm.appendChild(questionDiv);
@@ -90,7 +90,7 @@
                     const chooseCorrectButton = document.getElementById(`choose-correct${i}`);
 
                     addChoiceButton.addEventListener("click", function() {
-                        addChoice(choicesContainer);
+                        addChoice(choicesContainer, i);
                     });
 
                     deleteChoiceButton.addEventListener("click", function() {
@@ -103,7 +103,8 @@
                 }
             }
 
-            function addChoice(choicesContainer) {
+            function addChoice(choicesContainer, questionNumber) {
+                // Create a new choice input element
                 const choiceInput = document.createElement("input");
                 choiceInput.type = "text";
                 choiceInput.className = "choice";
@@ -113,6 +114,9 @@
                 // Add spacing
                 const spacingElement = document.createElement("br");
                 choicesContainer.appendChild(spacingElement);
+
+                // Clear any previous error message for choices
+                document.getElementById(`error-choices${questionNumber}`).textContent = "";
             }
 
             function deleteChoice(choicesContainer) {
@@ -152,6 +156,9 @@
                 }
 
                 choicesContainer.appendChild(correctAnswerSelect);
+
+                // Clear any previous error message for the question
+                document.getElementById(`error-question${questionNumber}`).textContent = "";
             }
 
             createQuizButton.addEventListener("click", function() {
@@ -160,10 +167,36 @@
                 let hasError = false; // Flag to check if there's any validation error
 
                 for (let i = 1; i <= numQuestions; i++) {
-                    const question = document.querySelector(`input[name="question${i}"]`).value;
+                    const questionInput = document.querySelector(`input[name="question${i}"]`);
+                    const question = questionInput.value.trim();
+
+                    // Validate if a question is provided
+                    if (question === "") {
+                        document.getElementById(`error-question${i}`).textContent = "Error: Enter a question.";
+                        hasError = true;
+                    } else {
+                        // Clear any previous error message
+                        document.getElementById(`error-question${i}`).textContent = "";
+                    }
+
                     const choicesContainer = document.getElementById(`choices-container${i}`);
                     const choiceInputs = choicesContainer.querySelectorAll(".choice");
                     const choices = Array.from(choiceInputs).map(choiceInput => choiceInput.value.trim());
+
+                    // Validate if at least one choice is provided
+                    if (choices.length === 0) {
+                        document.getElementById(`error-choices${i}`).textContent = "Error: Provide at least one choice.";
+                        hasError = true;
+                    }
+
+                    // Check if any choice is empty
+                    for (let j = 0; j < choices.length; j++) {
+                        if (choices[j] === "") {
+                            document.getElementById(`error-choices${i}`).textContent = "Error: Fill in all choice fields.";
+                            hasError = true;
+                            break;
+                        }
+                    }
 
                     // Get the selected correct answer
                     const correctAnswerSelect = document.getElementById(`correct-answer${i}`);
@@ -171,11 +204,11 @@
 
                     // Validate if the correct answer is selected
                     if (selectedIndex === 0) {
-                        document.getElementById(`error${i}`).textContent = "Error: Select a correct answer.";
+                        document.getElementById(`error-question${i}`).textContent = "Error: Select a correct answer.";
                         hasError = true;
                     } else {
                         // Clear any previous error message
-                        document.getElementById(`error${i}`).textContent = "";
+                        document.getElementById(`error-question${i}`).textContent = "";
 
                         // Store the selected correct answer
                         const selectedCorrectAnswer = selectedIndex - 1; // Adjust for the disabled option
