@@ -17,7 +17,7 @@ Once you've done the steps above, you should be able to navigate the user interf
 - ChatGPT 3.5
 
 # My conversation with ChatGPT 
-Having ChatGPT to code a weeb application could be a challenge because your commands should have a clear idea on what you want to achieve and a clear design on how you wanted your project to look like as a final product. To view my conversation with ChatGPT, you can click [here](https://chat.openai.com/share/77757824-08d3-4751-b573-0e2eae796ecf) or you can find the link below.
+Having ChatGPT to code a web application could be a challenge because your commands should have a clear idea on what you want to achieve and a clear design on how you wanted your project to look like as a final product. To view my conversation with ChatGPT, you can click [here](https://chat.openai.com/share/77757824-08d3-4751-b573-0e2eae796ecf) or you can find the link below.
 ```
 https://chat.openai.com/share/77757824-08d3-4751-b573-0e2eae796ecf
 ```
