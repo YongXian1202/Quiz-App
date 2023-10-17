@@ -2,7 +2,7 @@
 This interactive web application is a personal project that is 95% built and created by generative AI (artificial intelligence) tool. This web application allows users to create quizzes on various topics offline. Whether you're a parent who wanted to create a custom quizzes for your students or you're a student who is looking to test your knowledge by creating various questions regarding your subject.
 
 # Motive
-The rise of artificial intelligence is inevitable, and as we know there are already a sheer number of artificial intelligence tools free and available to use by the public. My motive for this personal project is to try it out first hand myself to see whether generative AI tools such as ChatGPT 3.5 has the capability to help me build an interactive web application following my commands. As the famous saying goes, 'Work smart, not hard.
+The rise of artificial intelligence is inevitable, and as we know there are already a sheer number of artificial intelligence tools free and available to use by the public. My motive for this personal project is to try it out first hand myself to see whether generative AI tools such as ChatGPT 3.5 has the capability to help me build an interactive web application following my commands. As the famous saying goes, 'Work smart, not hard.'
 
 # How to Use
 1. Make sure to download the zip file for this repository and extract it to your local computer
